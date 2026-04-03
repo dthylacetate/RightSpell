@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="header">📅 近期演出与活动</view>
+
+  <view class="event-card" wx:for="{{eventList}}" wx:key="_id">
+    <view class="event-header">
+      <view class="event-title">{{item.title}}</view>
+      <view class="event-status">{{item.status}}</view>
+    </view>
+    
+    <view class="event-info">
+      <view class="info-line">⏰ 时间：{{item.date}}</view>
+      <view class="info-line">📍 地点：{{item.location}}</view>
+    </view>
+    
+    <view class="event-desc">{{item.description}}</view>
+  </view>
+  
+  <view class="empty-tips" wx:if="{{eventList.length === 0}}">
+    最近暂时没有演出活动哦~
+  </view>
+</view>

@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="header">🎸 校园乐队招募大厅</view>
+
+  <view class="post-card" wx:for="{{postList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+  <view class="author-info">
+    <image class="mini-avatar" src="{{item.authorAvatar}}"></image>
+    <text class="author-name">{{item.authorName}}</text>
+  </view>
+
+    <view class="post-title">{{item.title}}</view>
+
+
+    <view class="post-tags">
+      <text class="tag">需要: {{item.instrument}}</text>
+      <text class="tag style-tag">风格: {{item.style}}</text>
+    </view>
+    <view class="post-content">{{item.content}}</view>
+  </view>
+
+
+  <view class="publish-fab" bindtap="goToPublish">
+    <text>➕ 发招募</text>
+  </view>
+
+
+</view>

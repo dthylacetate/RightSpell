@@ -1,0 +1,70 @@
+.container {
+  padding: 30rpx;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+.header {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+
+.event-card {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0,0,0,0.06);
+  border-top: 8rpx solid #1E90FF; /* 顶部加一条蓝色的亮线作为装饰 */
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.event-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  flex: 1; /* 让标题占据主要空间 */
+}
+
+.event-status {
+  font-size: 24rpx;
+  background-color: #ffebee;
+  color: #e53935;
+  padding: 6rpx 16rpx;
+  border-radius: 30rpx;
+  font-weight: bold;
+}
+
+.event-info {
+  background-color: #f8f9fa;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-line {
+  font-size: 26rpx;
+  color: #555;
+  margin-bottom: 10rpx;
+}
+.info-line:last-child {
+  margin-bottom: 0;
+}
+
+.event-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.empty-tips {
+  text-align: center;
+  color: #999;
+  margin-top: 100rpx;
+}

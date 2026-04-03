@@ -1,0 +1,39 @@
+<view class="container" wx:if="{{post}}">
+  <view class="main-post">
+    <view class="author-bar">
+      <image class="avatar" src="{{post.authorAvatar}}"></image>
+      <view class="info">
+        <view class="name">{{post.authorName}}</view>
+        <view class="time">发布于讨论区</view>
+      </view>
+    </view>
+    <view class="title">{{post.title}}</view>
+    <view class="content">{{post.content}}</view>
+  </view>
+
+  <view class="comment-list">
+    <view class="list-title">全部回复 ({{commentList.length}})</view>
+    <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
+      <image class="c-avatar" src="{{item.authorAvatar}}"></image>
+      <view class="c-body">
+        <view class="c-header">
+          <text class="c-name">{{item.authorName}}</text>
+          <text class="c-time">{{item.dateStr}}</text>
+        </view>
+        <view class="c-text">{{item.content}}</view>
+      </view>
+    </view>
+    <view class="empty-tips" wx:if="{{commentList.length === 0}}">还没有人回复，快来盖楼！</view>
+  </view>
+
+  <view class="comment-input-bar">
+    <input 
+      class="comment-input" 
+      placeholder="和大家一起聊聊..." 
+      bindinput="inputComment" 
+      value="{{commentContent}}" 
+    />
+    <button class="send-btn forum-btn" bindtap="submitComment">发送</button>
+  </view>
+  
+</view>

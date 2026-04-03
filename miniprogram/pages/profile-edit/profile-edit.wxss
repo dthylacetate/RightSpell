@@ -1,0 +1,16 @@
+.container { padding: 40rpx; background-color: #fff; min-height: 100vh; }
+.header { font-size: 44rpx; font-weight: bold; margin-bottom: 60rpx; text-align: center; }
+
+/* 头像区域样式 */
+.avatar-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 60rpx; }
+.avatar-btn { padding: 0; width: 160rpx; height: 160rpx; border-radius: 50%; background: none; }
+.avatar-btn::after { border: none; } /* 去除按钮自带的边框 */
+.avatar-img { width: 100%; height: 100%; border-radius: 50%; background-color: #f0f0f0; }
+.hint { font-size: 24rpx; color: #999; margin-top: 20rpx; }
+
+/* 表单样式 */
+.form-group { margin-bottom: 40rpx; }
+.label { font-size: 28rpx; color: #666; margin-bottom: 16rpx; font-weight: bold; }
+.input-box { border: 2rpx solid #eee; padding: 24rpx; border-radius: 12rpx; background-color: #f9f9f9; font-size: 32rpx; }
+
+.submit-btn { margin-top: 80rpx; background-color: #333 !important; color: #fff; width: 100% !important; border-radius: 60rpx; padding: 24rpx 0; }

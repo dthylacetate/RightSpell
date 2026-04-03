@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="header">📋 我发布的招募</view>
+
+  <view class="post-card" wx:for="{{myPostList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+    <view class="post-title">{{item.title}}</view>
+    <view class="post-tags">
+      <text class="tag">需要: {{item.instrument}}</text>
+    </view>
+    <view class="post-content">{{item.content}}</view>
+  </view>
+</view>

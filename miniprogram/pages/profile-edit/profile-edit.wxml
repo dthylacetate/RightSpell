@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="header">设置你的乐手名片</view>
+
+  <view class="avatar-section">
+    <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+      <image class="avatar-img" src="{{avatarUrl}}"></image>
+    </button>
+    <view class="hint">点击更换头像</view>
+  </view>
+
+  <view class="form-group">
+    <view class="label">昵称</view>
+    <input type="nickname" class="input-box" placeholder="请输入你的圈内昵称" bindchange="inputNickname" value="{{nickname}}" />
+  </view>
+
+  <view class="form-group">
+    <view class="label">擅长乐器</view>
+    <picker class="input-box" range="{{instruments}}" bindchange="changeInstrument">
+      <view>{{instrument ? instrument : '请选择 (如：贝斯)'}}</view>
+    </picker>
+  </view>
+
+  <view class="form-group">
+    <view class="label">常驻校区</view>
+    <input class="input-box" placeholder="如：沙河/本部/海南" bindinput="inputCampus" value="{{campus}}" />
+  </view>
+
+  <button class="submit-btn" bindtap="submitProfile">保存名片</button>
+</view>

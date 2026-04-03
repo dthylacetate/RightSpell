@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "拼好队",
+  "usingComponents": {
+    "cloud-tip-modal": "/components/cloudTipModal/index"
+  }
+}

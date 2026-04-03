@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="page-title">✍️ 发起讨论</view>
+
+  <input class="input-title" placeholder="想聊点什么？(例如：分享一下最近练琴的心得)" bindinput="inputTitle" />
+
+  <textarea class="input-content" placeholder="在这里详细展开说说..." bindinput="inputContent"></textarea>
+
+  <button class="submit-btn" type="primary" bindtap="submitPost">发布帖子</button>
+</view>

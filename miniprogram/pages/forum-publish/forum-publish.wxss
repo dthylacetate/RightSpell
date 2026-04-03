@@ -1,0 +1,37 @@
+.container {
+  padding: 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.page-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.input-title {
+  border: 2rpx solid #e0e0e0;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  background-color: #f9f9f9;
+  font-size: 32rpx;
+}
+
+.input-content {
+  border: 2rpx solid #e0e0e0;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  background-color: #f9f9f9;
+  width: 100%;
+  height: 400rpx; /* 讨论的正文通常比较长，把输入框拉高点 */
+  box-sizing: border-box;
+  font-size: 30rpx;
+}
+
+.submit-btn {
+  margin-top: 40rpx;
+  width: 100% !important; 
+  background-color: #ff5722 !important; /* 保持和论坛区一致的橙红色调 */
+}

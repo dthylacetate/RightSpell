@@ -1,0 +1,48 @@
+<view class="container" wx:if="{{post}}">
+  <view class="header-section">
+    <view class="title">{{post.title}}</view>
+    <view class="tags-container">
+      <text class="tag instrument-tag">🎸 需要: {{post.instrument}}</text>
+      <text class="tag style-tag">🎵 风格: {{post.style}}</text>
+    </view>
+  </view>
+
+  <view class="content-section">
+    <view class="section-title">招募详情</view>
+    <view class="content-text">{{post.content}}</view>
+  </view>
+
+  <view class="contact-section">
+    <view class="section-title">联系方式</view>
+    <view class="contact-box">
+      <text class="contact-text">{{post.contact}}</text>
+    </view>
+  </view>
+
+  <view class="comment-section">
+    <view class="section-title">留言交流 ({{commentList.length}})</view>
+    <view class="comment-list">
+      <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
+        <image class="c-avatar" src="{{item.authorAvatar}}"></image>
+        <view class="c-body">
+          <view class="c-header">
+            <text class="c-name">{{item.authorName}}</text>
+            <text class="c-time">{{item.dateStr}}</text>
+          </view>
+          <view class="c-text">{{item.content}}</view>
+        </view>
+      </view>
+      <view class="empty-tips" wx:if="{{commentList.length === 0}}">暂无留言，快来抢沙发 ~</view>
+    </view>
+  </view>
+
+  <view class="comment-input-bar">
+    <input 
+      class="comment-input" 
+      placeholder="对他感兴趣？留个言吧..." 
+      bindinput="inputComment" 
+      value="{{commentContent}}" 
+    />
+    <button class="send-btn" bindtap="submitComment">发送</button>
+  </view>
+</view>

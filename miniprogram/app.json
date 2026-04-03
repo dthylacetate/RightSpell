@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/forum/forum",
+    "pages/event/event",
+    "pages/mine/mine",
+    "pages/publish/publish",
+    "pages/forum-publish/forum-publish",
+    "pages/my-posts/my-posts",
+    "pages/post-detail/post-detail",
+    "pages/profile-edit/profile-edit",
+    "pages/forum-detail/forum-detail"
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "招募"
+      },
+      {
+        "pagePath": "pages/forum/forum",
+        "text": "讨论"
+      },
+      {
+        "pagePath": "pages/event/event",
+        "text": "演出"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "navigationBarTitleText": "拼好队"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
