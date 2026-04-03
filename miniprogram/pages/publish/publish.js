@@ -5,9 +5,13 @@ Page({
     instrument: '',
     style: '',
     content: '',
-    contact: ''
+    contact: '',
+    typeOptions: ['招募乐手' , '个人求组队'], // 增加类型选项
+    typeIndex: 0, // 默认为找队友
   },
-
+  changeType(e) {
+    this.setData({ typeIndex: e.detail.value });
+  },
   // 1. 获取输入（保持不变）
   inputTitle(e) { this.setData({ title: e.detail.value }) },
   changeInstrument(e) { this.setData({ instrument: this.data.instruments[e.detail.value] }) },
@@ -69,6 +73,7 @@ Page({
       // 存储到 posts 集合
       db.collection('posts').add({
         data: {
+          type: this.data.typeOptions[this.data.typeIndex], // 核心：存入类型字符串
           title: this.data.title,
           instrument: this.data.instrument,
           style: this.data.style,

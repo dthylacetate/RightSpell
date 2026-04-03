@@ -23,10 +23,6 @@
         <text>我的发帖</text>
         <text class="arrow">></text>
       </view>
-      <view class="menu-item">
-        <text>我的乐队</text>
-        <text class="arrow">></text>
-      </view>
       <view class="menu-item" bindtap="logout">
         <text>退出登录</text>
         <text class="arrow">></text>

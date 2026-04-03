@@ -1,26 +1,28 @@
 <view class="container">
-  <view class="header">🎸 校园乐队招募大厅</view>
-
   <view class="post-card" wx:for="{{postList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
-  <view class="author-info">
-    <image class="mini-avatar" src="{{item.authorAvatar}}"></image>
-    <text class="author-name">{{item.authorName}}</text>
-  </view>
-
-    <view class="post-title">{{item.title}}</view>
-
-
-    <view class="post-tags">
-      <text class="tag">需要: {{item.instrument}}</text>
-      <text class="tag style-tag">风格: {{item.style}}</text>
+    <view class="card-title-row">
+      <text class="type-tag {{item.type === '个人求组队' ? 'tag-person' : 'tag-band'}}">
+        {{item.type || '招募队友'}}
+      </text>
+      <text class="post-title">{{item.title}}</text>
     </view>
-    <view class="post-content">{{item.content}}</view>
+    
+    <view class="card-info">
+      <text class="info-item">🎸 {{item.instrument}}</text>
+      <text class="info-item">🎵 {{item.style}}</text>
+    </view>
+
+    <view class="card-footer">
+      <view class="author">
+        <image class="mini-avatar" src="{{item.authorAvatar}}"></image>
+        <text class="name">{{item.authorName}}</text>
+      </view>
+      <text class="comment-num">💬 {{item.commentCount || 0}} 评论</text>
+    </view>
   </view>
 
-
-  <view class="publish-fab" bindtap="goToPublish">
-    <text>➕ 发招募</text>
+  <view class="fab-btn" bindtap="goToPublish" hover-class="fab-btn-hover">
+    <text class="plus">+</text>
+    <text class="btn-text">发布</text>
   </view>
-
-
 </view>

@@ -1,13 +1,22 @@
 <view class="container">
-  <view class="header">📝 发布招募信息</view>
+  <view class="header">📝 发布招募/求组队</view>
 
   <view class="form-group">
-    <text class="label">标题</text>
-    <input class="input" placeholder="给你的招募起个酷炫的标题" bindinput="inputTitle" value="{{title}}" />
+    <text class="label">我想...</text>
+    <picker bindchange="changeType" value="{{typeIndex}}" range="{{typeOptions}}">
+      <view class="picker-box type-picker-box">
+        {{typeOptions[typeIndex]}} <text class="arrow">▼</text>
+      </view>
+    </picker>
   </view>
 
   <view class="form-group">
-    <text class="label">目标乐器</text>
+    <text class="label">标题</text>
+    <input class="input" placeholder="给你的帖子起个标题" bindinput="inputTitle" value="{{title}}" />
+  </view>
+
+  <view class="form-group">
+    <text class="label">需求乐器/擅长乐器</text>
     <picker bindchange="changeInstrument" range="{{instruments}}">
       <view class="picker-box">
         {{instrument ? instrument : '点击选择乐器 (如: 贝斯)'}}
@@ -15,23 +24,20 @@
     </picker>
   </view>
 
-
   <view class="form-group">
     <text class="label">音乐风格</text>
-    <input class="input" placeholder="例如: 重金属 / 后摇 / 流行" bindinput="inputStyle" value="{{style}}" />
+    <input class="input" placeholder="例如: 金属 / 流行 / 后摇" bindinput="inputStyle" value="{{style}}" />
   </view>
 
   <view class="form-group">
-    <text class="label">招募详情</text>
-    <textarea class="textarea" placeholder="描述一下你们的乐队，以及对队友的要求..." bindinput="inputContent" value="{{content}}"></textarea>
+    <text class="label">详细说明</text>
+    <textarea class="textarea" placeholder="描述一下你的需求或个人情况..." bindinput="inputContent" value="{{content}}"></textarea>
   </view>
 
   <view class="form-group">
     <text class="label">联系方式 (微信/手机)</text>
-    <input class="input" placeholder="方便感兴趣的乐手联系你" bindinput="inputContact" value="{{contact}}" />
+    <input class="input" placeholder="方便感兴趣的人联系你" bindinput="inputContact" value="{{contact}}" />
   </view>
 
   <button class="submit-btn" bindtap="submitPost">立即发布</button>
-  
-  <view class="tips">发布内容将经过安全审核，请文明交流哦</view>
 </view>
