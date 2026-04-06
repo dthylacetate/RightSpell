@@ -138,5 +138,18 @@ Page({
         postId: this.postId, content, replyUser: replyName, time: "刚刚" 
       }
     });
+  },
+
+
+  goToProfile(e) {
+    const openid = e.currentTarget.dataset.openid;
+    if (!openid) return;
+    wx.navigateTo({
+      url: `/pages/profile-detail/profile-detail?openid=${openid}`
+    });
   }
+
+
+
+
 })

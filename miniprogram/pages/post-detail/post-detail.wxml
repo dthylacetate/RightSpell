@@ -12,13 +12,17 @@
     </view>
   </view>
 
-  <view class="author-row">
-    <image class="avatar" src="{{post.authorAvatar}}" mode="aspectFill"></image>
-    <view class="author-info">
+  <view class="author-row" bindtap="goToProfile" data-openid="{{post._openid}}">
+  <image class="avatar" src="{{post.authorAvatar}}" mode="aspectFill"></image>
+  <view class="author-info">
+    <view class="nickname-row">
       <view class="nickname">{{post.authorName}}</view>
-      <view class="style-tag">风格：{{post.style}}</view>
+      <text class="view-profile-hint">查看名片 ></text> 
     </view>
+    <view class="style-tag">风格：{{post.style}}</view>
   </view>
+
+</view>
 
   <view class="post-body">
     <view class="detail-item">🎸 需求乐器：{{post.instrument}}</view>
@@ -29,14 +33,24 @@
 
   <view class="comment-section">
     <view class="section-title">留言 ({{commentList.length}})</view>
+    
     <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
-      <image class="mini-avatar" src="{{item.authorAvatar}}" mode="aspectFill"></image>
-      <view class="comment-main">
-        <view class="comment-user">{{item.authorName}}</view>
-        <view class="comment-content">{{item.content}}</view>
-        <view class="comment-time">{{item.dateStr}}</view>
-      </view>
+  <image 
+    class="mini-avatar" 
+    src="{{item.authorAvatar}}" 
+    mode="aspectFill" 
+    bindtap="goToProfile" 
+    data-openid="{{item._openid}}"
+  ></image>
+  
+  <view class="comment-main">
+    <view class="comment-user" bindtap="goToProfile" data-openid="{{item._openid}}">
+      {{item.authorName}}
     </view>
+    <view class="comment-content">{{item.content}}</view>
+    <view class="comment-time">{{item.dateStr}}</view>
+  </view>
+</view>
   </view>
 
   <view class="bottom-bar">

@@ -1,16 +1,110 @@
-.container { padding: 40rpx; background-color: #fff; min-height: 100vh; }
-.header { font-size: 44rpx; font-weight: bold; margin-bottom: 60rpx; text-align: center; }
+page {
+  background-color: #f8f8f8;
+}
 
-/* 头像区域样式 */
-.avatar-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 60rpx; }
-.avatar-btn { padding: 0; width: 160rpx; height: 160rpx; border-radius: 50%; background: none; }
-.avatar-btn::after { border: none; } /* 去除按钮自带的边框 */
-.avatar-img { width: 100%; height: 100%; border-radius: 50%; background-color: #f0f0f0; }
-.hint { font-size: 24rpx; color: #999; margin-top: 20rpx; }
+.container {
+  padding: 30rpx;
+}
 
-/* 表单样式 */
-.form-group { margin-bottom: 40rpx; }
-.label { font-size: 28rpx; color: #666; margin-bottom: 16rpx; font-weight: bold; }
-.input-box { border: 2rpx solid #eee; padding: 24rpx; border-radius: 12rpx; background-color: #f9f9f9; font-size: 32rpx; }
+/* 头像区域 */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+}
 
-.submit-btn { margin-top: 80rpx; background-color: #333 !important; color: #fff; width: 100% !important; border-radius: 60rpx; padding: 24rpx 0; }
+.avatar-wrapper {
+  padding: 0;
+  width: 160rpx !important;
+  height: 160rpx !important;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8rpx 30rpx rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-edit-tag {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 20rpx;
+  text-align: center;
+  padding: 4rpx 0;
+}
+
+.hint {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 20rpx;
+}
+
+/* 卡片布局 */
+.form-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 0 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.form-item {
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.no-border {
+  border-bottom: none;
+}
+
+.label {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.input, .picker-box {
+  font-size: 28rpx;
+  color: #333;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.placeholder {
+  color: #ccc;
+}
+
+.textarea {
+  width: 100%;
+  height: 160rpx;
+  font-size: 28rpx;
+  background: #fafafa;
+  padding: 20rpx;
+  box-sizing: border-box;
+  border-radius: 12rpx;
+  color: #333;
+}
+
+/* 按钮样式 */
+.save-btn {
+  background: linear-gradient(135deg, #ffb74d, #ff9800);
+  color: #fff;
+  border-radius: 50rpx;
+  margin-top: 40rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  box-shadow: 0 10rpx 20rpx rgba(255,152,0,0.3);
+}
+
+.bottom-gap {
+  height: 60rpx;
+}

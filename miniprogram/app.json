@@ -9,7 +9,8 @@
     "pages/my-posts/my-posts",
     "pages/post-detail/post-detail",
     "pages/profile-edit/profile-edit",
-    "pages/forum-detail/forum-detail"
+    "pages/forum-detail/forum-detail",
+    "pages/profile-detail/profile-detail"
   ],
   "tabBar": {
     "color": "#999999",

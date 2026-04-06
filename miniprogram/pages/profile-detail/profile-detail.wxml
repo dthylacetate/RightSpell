@@ -1,0 +1,38 @@
+<view class="profile-page" wx:if="{{user}}">
+  <view class="hero-section">
+    <image class="hero-blur-bg" src="{{user.avatarUrl}}" mode="aspectFill"></image>
+    <view class="hero-content">
+      <image class="hero-avatar" src="{{user.avatarUrl}}" mode="aspectFill"></image>
+      <view class="hero-nickname">{{user.nickname}}</view>
+      <view class="hero-tags">
+        <text class="h-tag">🎸 {{user.instrument}}</text>
+        <text class="h-tag">⏱️ {{user.years || '新手入坑'}}</text>
+        <text class="h-tag">📍 {{user.campus || '校区不详'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="detail-container">
+    
+    <view class="info-card">
+      <view class="card-title">🎵 擅长风格</view>
+      <view class="style-box">
+        <text class="style-badge">{{user.styles || '全风格选手'}}</text>
+      </view>
+    </view>
+
+    <view class="info-card">
+      <view class="card-title">🔌 核心设备 (Gear)</view>
+      <text class="gear-text">{{user.gear || '保持神秘，暂未晒出设备'}}</text>
+    </view>
+
+    <view class="info-card">
+      <view class="card-title">💬 音乐态度 (Bio)</view>
+      <view class="bio-content">
+        <text class="quote">“</text>
+        <text class="bio-text">{{user.bio || '这家伙很酷，什么都没留下。'}}</text>
+      </view>
+    </view>
+
+  </view>
+</view>

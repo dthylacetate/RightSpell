@@ -1,0 +1,114 @@
+page { background-color: #f7f7f7; }
+
+/* 顶部 Hero 效果 */
+.hero-section {
+  height: 480rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-blur-bg {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  filter: blur(40rpx) brightness(0.6);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-avatar {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  border: 6rpx solid rgba(255,255,255,0.3);
+  box-shadow: 0 10rpx 40rpx rgba(0,0,0,0.3);
+}
+
+.hero-nickname {
+  color: #fff;
+  font-size: 44rpx;
+  font-weight: bold;
+  margin-top: 20rpx;
+}
+
+.hero-tags {
+  display: flex;
+  justify-content: center;
+  margin-top: 15rpx;
+}
+
+.h-tag {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 30rpx;
+  margin: 0 8rpx;
+  backdrop-filter: blur(10px);
+}
+
+/* 内容布局 */
+.detail-container {
+  padding: 30rpx;
+  margin-top: -40rpx; /* 向上提，压在背景上 */
+  position: relative;
+  z-index: 10;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.02);
+}
+
+.card-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ff9800;
+  margin-bottom: 20rpx;
+}
+
+.style-badge {
+  background: #fff7e6;
+  color: #ff9800;
+  padding: 8rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}
+
+.gear-text {
+  font-size: 28rpx;
+  color: #444;
+  line-height: 1.6;
+}
+
+.bio-content {
+  position: relative;
+  padding: 10rpx 0;
+}
+
+.quote {
+  font-size: 60rpx;
+  color: #f0f0f0;
+  position: absolute;
+  top: -20rpx;
+  left: -10rpx;
+}
+
+.bio-text {
+  font-size: 30rpx;
+  color: #555;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}

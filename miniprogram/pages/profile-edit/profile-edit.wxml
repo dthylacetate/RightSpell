@@ -1,29 +1,71 @@
 <view class="container">
-  <view class="header">设置你的乐手名片</view>
-
   <view class="avatar-section">
-    <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-      <image class="avatar-img" src="{{avatarUrl}}"></image>
+    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="avatar" src="{{avatarUrl}}" mode="aspectFill"></image>
+      <view class="avatar-edit-tag">更换头像</view>
     </button>
-    <view class="hint">点击更换头像</view>
+    <text class="hint">点击头像可直接修改</text>
   </view>
 
-  <view class="form-group">
-    <view class="label">昵称</view>
-    <input type="nickname" class="input-box" placeholder="请输入你的圈内昵称" bindchange="inputNickname" value="{{nickname}}" />
+  <view class="form-card">
+    <view class="form-item">
+      <text class="label">乐手昵称</text>
+      <input class="input" type="nickname" placeholder="想个响亮的外号" value="{{nickname}}" bindblur="inputNickname" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">所在校区</text>
+      <input class="input" placeholder="如：沙河/本部/海南" value="{{campus}}" bindinput="inputCampus" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">主攻乐器</text>
+      <picker bindchange="changeInstrument" range="{{instruments}}">
+        <view class="picker-box {{instrument ? '' : 'placeholder'}}">
+          {{instrument || '请选择你的本命乐器'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">琴龄 / 艺龄</text>
+      <picker bindchange="changeYears" range="{{yearOptions}}">
+        <view class="picker-box {{years ? '' : 'placeholder'}}">
+          {{years || '大约玩了多久？'}}
+        </view>
+      </picker>
+    </view>
   </view>
 
-  <view class="form-group">
-    <view class="label">擅长乐器</view>
-    <picker class="input-box" range="{{instruments}}" bindchange="changeInstrument">
-      <view>{{instrument ? instrument : '请选择 (如：贝斯)'}}</view>
-    </picker>
+  <view class="form-card">
+    <view class="form-item">
+      <text class="label">擅长风格</text>
+      <input class="input" placeholder="如：Metal, Funk, J-Pop..." value="{{styles}}" bindinput="inputStyles" />
+    </view>
+
+    <view class="form-item no-border">
+      <text class="label">我的设备 (Gear)</text>
+      <textarea 
+        class="textarea" 
+        placeholder="晒晒你的家伙事儿，如：dingwall, 全套黑玻璃" 
+        value="{{gear}}" 
+        bindinput="inputGear" 
+        maxlength="200"
+      />
+    </view>
+
+    <view class="form-item no-border">
+      <text class="label">个人简介 (Bio)</text>
+      <textarea 
+        class="textarea" 
+        placeholder="聊聊你的音乐态度，或者想找什么样的队友..." 
+        value="{{bio}}" 
+        bindinput="inputBio" 
+        maxlength="300"
+      />
+    </view>
   </view>
 
-  <view class="form-group">
-    <view class="label">常驻校区</view>
-    <input class="input-box" placeholder="如：沙河/本部/海南" bindinput="inputCampus" value="{{campus}}" />
-  </view>
-
-  <button class="submit-btn" bindtap="submitProfile">保存名片</button>
+  <button class="save-btn" bindtap="submitProfile">保存乐手名片</button>
+  <view class="bottom-gap"></view>
 </view>
