@@ -1,3 +1,9 @@
+// 1. 引入刚才创建的“攒次数”神器
+import { requestNotice } from '../../utils/notice.js';
+
+// 2. 这里填入你在微信后台申请的模板 ID
+const NOTICE_TEMPLATE_ID = 'l7LPYggn6eytBnp47wf5kZYh2IkbbQ6Pb4-hv8qLUOs'; 
+
 Page({
   data: {
     title: '',
@@ -6,37 +12,48 @@ Page({
     style: '',
     content: '',
     contact: '',
-    typeOptions: ['招募乐手' , '个人求组队'], // 增加类型选项
-    typeIndex: 0, // 默认为找队友
+    typeOptions: ['招募乐手' , '个人求组队'],
+    typeIndex: 0,
   },
+
   changeType(e) {
     this.setData({ typeIndex: e.detail.value });
   },
-  // 1. 获取输入（保持不变）
+
   inputTitle(e) { this.setData({ title: e.detail.value }) },
   changeInstrument(e) { this.setData({ instrument: this.data.instruments[e.detail.value] }) },
   inputStyle(e) { this.setData({ style: e.detail.value }) },
   inputContent(e) { this.setData({ content: e.detail.value }) },
   inputContact(e) { this.setData({ contact: e.detail.value }) },
 
-  // 2. 第一步：点击发布的入口
+  // === 核心逻辑修改 ===
   submitPost() {
     const { title, instrument, content } = this.data;
     
-    // 基础验证
+    // 基础验证（这部分是同步的，不影响点击手势）
     if (!title || !instrument || !content) {
       wx.showToast({ title: '核心信息没填全哦', icon: 'none' });
       return;
     }
 
+    // ✨ 关键点：在任何异步操作（云函数/数据库）之前，先发起订阅请求
+    // 此时仍然处于用户 TAP 手势的同步作用域内
+    requestNotice(NOTICE_TEMPLATE_ID).then(() => {
+      console.log('订阅请求处理完成，开始发布流程');
+      // 无论用户点允许还是拒绝，我们都继续发布流程
+      this.startSafetyCheck();
+    });
+  },
+
+  // 将原来的发布流程封装成独立函数
+  startSafetyCheck() {
+    const { title, content } = this.data;
     wx.showLoading({ title: '安全检测中...' });
 
-    // === 调用安全检测云函数 ===
     wx.cloud.callFunction({
       name: 'checkContent',
       data: { content: title + content } 
     }).then(res => {
-      // 检查建议结果
       if (res.result.result && res.result.result.suggest !== 'pass') {
         wx.hideLoading();
         wx.showModal({
@@ -45,22 +62,19 @@ Page({
           showCancel: false
         });
       } else {
-        // 安全检测通过，进入真正的发布环节
+        // 安全检测通过，执行发布
         this.doRealPublish();
       }
     }).catch(err => {
       wx.hideLoading();
-      console.error("检测失败", err);
-      wx.showToast({ title: '安全检测超时，请重试', icon: 'none' });
+      wx.showToast({ title: '安全检测超时', icon: 'none' });
     })
   },
 
-  // 3. 第二步：真正的数据库存储逻辑
   doRealPublish() {
     const db = wx.cloud.database();
     const openid = wx.getStorageSync('userOpenId');
 
-    // 拿到名片信息后再存入 posts
     db.collection('users').where({ _openid: openid }).get().then(res => {
       let authorName = "匿名乐手";
       let authorAvatar = "";
@@ -70,10 +84,9 @@ Page({
         authorAvatar = res.data[0].avatarUrl;
       }
 
-      // 存储到 posts 集合
       db.collection('posts').add({
         data: {
-          type: this.data.typeOptions[this.data.typeIndex], // 核心：存入类型字符串
+          type: this.data.typeOptions[this.data.typeIndex],
           title: this.data.title,
           instrument: this.data.instrument,
           style: this.data.style,
@@ -82,12 +95,12 @@ Page({
           authorName: authorName,
           authorAvatar: authorAvatar,
           commentCount: 0,
-          createTime: db.serverDate() // 使用服务器时间
+          createTime: db.serverDate()
         },
         success: () => {
           wx.hideLoading();
           wx.showToast({ title: '发布成功！', icon: 'success' });
-          // 延迟跳转，让用户看一眼成功提示
+          // 延迟跳转
           setTimeout(() => { wx.navigateBack(); }, 1500);
         },
         fail: err => {

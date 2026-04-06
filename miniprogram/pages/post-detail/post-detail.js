@@ -1,5 +1,9 @@
-// pages/post-detail/post-detail.js
 const util = require('../../utils/util.js'); // 引入时间格式化工具类
+// 1. 引入攒次数工具
+import { requestNotice } from '../../utils/notice.js';
+
+// 2. 依然是那个模板 ID
+const NOTICE_TEMPLATE_ID = 'l7LPYggn6eytBnp47wf5kZYh2IkbbQ6Pb4-hv8qLUOs'; 
 
 Page({
   data: {
@@ -13,9 +17,12 @@ Page({
     console.log("正在加载帖子详情，ID:", id);
 
     if (id && id !== "undefined") {
-      this.postId = id; // 将 ID 挂载到 this 上方便后续调用
+      this.postId = id; 
       this.getDetailData(id);
       this.getComments(id);
+
+      // --- 动作一已从此处移除，因为它无法在 onLoad 这种非人工触发的环境下运行 ---
+      
     } else {
       wx.showToast({ title: '参数异常', icon: 'none' });
       setTimeout(() => { wx.navigateBack(); }, 1500);
@@ -41,10 +48,9 @@ Page({
     const db = wx.cloud.database();
     db.collection('comments')
       .where({ postId: id })
-      .orderBy('createTime', 'desc') // 最新的评论排在最上面
+      .orderBy('createTime', 'desc') 
       .get({
         success: res => {
-          // 使用工具类处理时间显示
           const formattedList = res.data.map(item => {
             item.dateStr = util.formatTime(item.createTime);
             return item;
@@ -54,12 +60,11 @@ Page({
       })
   },
 
-  // 3. 监听输入框
   inputComment(e) {
     this.setData({ commentContent: e.detail.value });
   },
 
-  // 4. 提交留言（第一关：安检）
+  // 4. 提交留言（✨ 已加入订阅授权逻辑）
   submitComment() {
     const content = this.data.commentContent.trim();
     if (!content) {
@@ -67,30 +72,34 @@ Page({
       return;
     }
 
-    wx.showLoading({ title: '安全检测中...' });
+    // ✨ 核心修改：在提交前先请求订阅权限
+    // 此时处于用户点击按钮的同步时间线内，微信会允许弹窗
+    requestNotice(NOTICE_TEMPLATE_ID).then(() => {
+      console.log('留言前的订阅处理完成（已尝试攒次数）');
+      
+      // 订阅处理完后，再开始安全检测
+      wx.showLoading({ title: '安全检测中...' });
 
-    // 调用安全检测云函数
-    wx.cloud.callFunction({
-      name: 'checkContent',
-      data: { content: content }
-    }).then(res => {
-      // 检查检测结果
-      if (res.result.result && res.result.result.suggest !== 'pass') {
+      wx.cloud.callFunction({
+        name: 'checkContent',
+        data: { content: content }
+      }).then(res => {
+        if (res.result.result && res.result.result.suggest !== 'pass') {
+          wx.hideLoading();
+          wx.showModal({
+            title: '提示',
+            content: '留言内容不符合社区规范，请修改。',
+            showCancel: false
+          });
+        } else {
+          this.doRealSubmitComment(content);
+        }
+      }).catch(err => {
         wx.hideLoading();
-        wx.showModal({
-          title: '提示',
-          content: '留言内容不符合社区规范，请修改。',
-          showCancel: false
-        });
-      } else {
-        // 安全检测通过，执行真正的存储
-        this.doRealSubmitComment(content);
-      }
-    }).catch(err => {
-      wx.hideLoading();
-      console.error("安检失败", err);
-      wx.showToast({ title: '检测服务异常', icon: 'none' });
-    })
+        console.error("安检失败", err);
+        wx.showToast({ title: '检测服务异常', icon: 'none' });
+      })
+    });
   },
 
   // 5. 提交留言（第二关：实名抓取与入库）
@@ -98,11 +107,9 @@ Page({
     const db = wx.cloud.database();
     const openid = wx.getStorageSync('userOpenId');
 
-    // 抓取当前发帖人的资料
     db.collection('users').where({ _openid: openid }).get().then(res => {
       const user = res.data[0] || { nickname: "匿名乐手", avatarUrl: "" };
 
-      // A. 存入评论集合
       db.collection('comments').add({
         data: {
           postId: this.postId,
@@ -112,14 +119,15 @@ Page({
           createTime: db.serverDate()
         },
         success: () => {
-          // B. 成功后更新 UI
           this.setData({ commentContent: '' });
-          this.getComments(this.postId); // 重新拉取列表
+          this.getComments(this.postId); 
 
-          // C. 进阶：更新 posts 表的评论计数字段
           db.collection('posts').doc(this.postId).update({
             data: { commentCount: db.command.inc(1) }
           });
+
+          // ✨ 动作二：出门发信
+          this.pushNoticeToAuthor(content, user.nickname);
 
           wx.hideLoading();
           wx.showToast({ title: '留言成功', icon: 'success' });
@@ -130,5 +138,24 @@ Page({
         }
       })
     })
+  },
+
+  pushNoticeToAuthor(content, replyName) {
+    if (this.data.post._openid === wx.getStorageSync('userOpenId')) return;
+
+    wx.cloud.callFunction({
+      name: 'sendNotice', 
+      data: {
+        targetOpenId: this.data.post._openid, 
+        postId: this.postId,                 
+        content: content,                     
+        replyUser: replyName,                 
+        time: "刚刚"                          
+      }
+    }).then(res => {
+      console.log('🚀 推送请求已发出', res);
+    }).catch(err => {
+      console.error('❌ 推送请求失败', err);
+    });
   }
 })

@@ -2,7 +2,7 @@
   <view class="header-section">
     <view class="detail-title-row">
       <text class="type-tag {{post.type === '个人求组队' ? 'tag-person' : 'tag-band'}}">
-        {{post.type || '招募队友'}}
+        {{post.type || '招募乐手'}}
       </text>
       <view class="title">{{post.title}}</view>
     </view>
@@ -16,5 +16,38 @@
   <view class="content-section">
     <view class="section-title">详细说明</view>
     <view class="content-text">{{post.content}}</view>
+    <view class="contact-box" wx:if="{{post.contact}}">
+      <text class="contact-label">联系方式：</text>
+      <text class="contact-value">{{post.contact}}</text>
+    </view>
   </view>
+
+  <view class="comment-section">
+    <view class="section-title">💬 评论 ({{commentList.length}})</view>
+    
+    <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
+      <image class="comment-avatar" src="{{item.authorAvatar || '/images/default-avatar.png'}}"></image>
+      <view class="comment-main">
+        <view class="comment-nickname">{{item.authorName}}</view>
+        <view class="comment-text">{{item.content}}</view>
+        <view class="comment-time">{{item.dateStr}}</view>
+      </view>
+    </view>
+
+    <view class="no-comment" wx:if="{{commentList.length === 0}}">
+      还没有人留言，快来抢个沙发吧！
+    </view>
   </view>
+
+  <view class="bottom-bar">
+    <input 
+      class="comment-input" 
+      placeholder="跟 Ta 聊聊你的音乐理念..." 
+      value="{{commentContent}}"
+      bindinput="inputComment" 
+      confirm-type="send"
+      bindconfirm="submitComment"
+    />
+    <button class="send-btn" bindtap="submitComment">发送</button>
+  </view>
+</view>
