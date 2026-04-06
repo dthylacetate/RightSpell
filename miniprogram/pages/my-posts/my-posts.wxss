@@ -47,3 +47,15 @@ page { background: #f7f7f7; padding-bottom: 50rpx; }
   border-radius: 40rpx;
   width: 240rpx !important;
 }
+
+.btn-edit {
+  margin-right: 20rpx !important;
+  padding: 10rpx 30rpx !important;
+  font-size: 24rpx !important;
+  color: #ff9800;
+  background: #fff;
+  border: 1rpx solid #ff9800;
+  border-radius: 30rpx;
+  width: auto !important;
+  min-height: 0 !important;
+}

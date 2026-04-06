@@ -66,6 +66,15 @@ Page({
   goToDetail(e) {
     wx.navigateTo({ url: `/pages/post-detail/post-detail?id=${e.currentTarget.dataset.id}` });
   },
+// pages/my-posts/my-posts.js
+editPost(e) {
+  const id = e.currentTarget.dataset.id;
+  // 跳转到发布页，并把帖子 ID 传过去
+  wx.navigateTo({
+    url: `/pages/publish/publish?id=${id}`
+  });
+},
+
 
   navToPublish() {
     wx.navigateTo({ url: '/pages/publish/publish' });

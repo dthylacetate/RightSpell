@@ -180,3 +180,127 @@
 .comment-text { font-size: 30rpx; color: #333; margin: 8rpx 0; line-height: 1.5; }
 .comment-time { font-size: 22rpx; color: #bbb; }
 .no-comment { text-align: center; color: #999; padding: 60rpx 0; font-size: 26rpx; }
+
+/* pages/post-detail/post-detail.wxss */
+
+/* ✨ 新增或覆盖：作者信息整行布局，确保垂直居中 */
+.author-row {
+  display: flex;
+  align-items: center; /* 头像和文字垂直居中对齐 */
+  padding: 0 30rpx 30rpx; /* 调整间距，配合新的头部布局 */
+}
+
+/* ✨ 重点修复：给头像强行戴上紧箍咒 */
+.avatar {
+  width: 90rpx !important;    /* 强行写死宽度，根据需要调大或调小 */
+  height: 90rpx !important;   /* 强行写死高度，保持 1:1 */
+  border-radius: 50%;         /* 圆形头像 */
+  margin-right: 20rpx;         /* 顶开右侧文字 */
+  
+  /* 辅助：防止图片加载前后的闪烁或撑破布局 */
+  background-color: #f0f0f0;  /* 占位背景色 */
+  flex-shrink: 0;             /* 关键：防止在 flex 布局下被挤压变形 */
+  display: block;             /* 消除图片底部的幽灵间隙 */
+}
+
+/* 作者名字和风格区域 */
+.author-info {
+  flex: 1; /* 占据剩余空间 */
+  display: flex;
+  flex-direction: column; /* 文字上下排列 */
+}
+
+.nickname {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.style-tag {
+  font-size: 22rpx;
+  color: #777;
+}
+
+/* --- 留言区整体布局 --- */
+.comment-item {
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+  align-items: flex-start; /* 让头像对齐留言的第一行文字 */
+}
+
+/* ✨ 重点修复：留言者的小头像 */
+.mini-avatar {
+  width: 64rpx !important;    /* 留言头像稍小一些，显得精致 */
+  height: 64rpx !important;
+  border-radius: 50%;         /* 圆形 */
+  margin-right: 20rpx;
+  flex-shrink: 0;             /* 极其重要：防止被长留言挤压变形 */
+  background-color: #eee;     /* 占位色 */
+  display: block;
+}
+
+/* 留言主体内容区域 */
+.comment-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-user {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 8rpx;
+}
+
+.comment-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.5;
+}
+
+.comment-time {
+  font-size: 22rpx;
+  color: #bbb;
+  margin-top: 10rpx;
+}
+/* 编辑按钮容器 */
+.edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* 尺寸与间距 */
+  padding: 8rpx 24rpx;
+  margin-left: 20rpx;
+  
+  /* 边框与背景 */
+  background: rgba(255, 152, 0, 0.08); /* 极浅的橙色背景 */
+  border: 2rpx solid #ff9800;          /* 招募橙边框 */
+  border-radius: 40rpx;                /* 胶囊形状 */
+  
+  /* 动画过渡 */
+  transition: all 0.3s ease;
+}
+
+/* 按钮文字 */
+.edit-btn text {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #ff9800; /* 文字颜色与边框一致 */
+}
+
+/* 图标微调 */
+.edit-icon {
+  font-size: 26rpx;
+  margin-right: 6rpx;
+  line-height: 1;
+}
+
+/* ✨ 交互反馈：按下时的视觉效果 */
+.edit-btn:active {
+  transform: scale(0.92);             /* 轻轻缩小，有弹性感 */
+  background: rgba(255, 152, 0, 0.2); /* 背景加深 */
+}

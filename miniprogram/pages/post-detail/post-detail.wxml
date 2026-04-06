@@ -1,53 +1,52 @@
 <view class="container" wx:if="{{post}}">
-  <view class="header-section">
-    <view class="detail-title-row">
-      <text class="type-tag {{post.type === '个人求组队' ? 'tag-person' : 'tag-band'}}">
-        {{post.type || '招募乐手'}}
-      </text>
+  
+  <view class="post-header">
+    <view class="title-wrap">
+      <text class="type-tag">{{post.type}}</text>
       <view class="title">{{post.title}}</view>
     </view>
-    
-    <view class="tags-container">
-      <text class="tag instrument-tag">🎸 乐器: {{post.instrument}}</text>
-      <text class="tag style-tag">🎵 风格: {{post.style}}</text>
+
+    <view class="edit-btn" wx:if="{{isAuthor}}" bindtap="goToEdit">
+      <text class="edit-icon">📝</text>
+      <text>编辑</text>
     </view>
   </view>
 
-  <view class="content-section">
-    <view class="section-title">详细说明</view>
-    <view class="content-text">{{post.content}}</view>
-    <view class="contact-box" wx:if="{{post.contact}}">
-      <text class="contact-label">联系方式：</text>
-      <text class="contact-value">{{post.contact}}</text>
+  <view class="author-row">
+    <image class="avatar" src="{{post.authorAvatar}}" mode="aspectFill"></image>
+    <view class="author-info">
+      <view class="nickname">{{post.authorName}}</view>
+      <view class="style-tag">风格：{{post.style}}</view>
     </view>
   </view>
+
+  <view class="post-body">
+    <view class="detail-item">🎸 需求乐器：{{post.instrument}}</view>
+    <view class="content-text">{{post.content}}</view>
+  </view>
+
+  <view class="divider"></view>
 
   <view class="comment-section">
-    <view class="section-title">💬 评论 ({{commentList.length}})</view>
-    
+    <view class="section-title">留言 ({{commentList.length}})</view>
     <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
-      <image class="comment-avatar" src="{{item.authorAvatar || '/images/default-avatar.png'}}"></image>
+      <image class="mini-avatar" src="{{item.authorAvatar}}" mode="aspectFill"></image>
       <view class="comment-main">
-        <view class="comment-nickname">{{item.authorName}}</view>
-        <view class="comment-text">{{item.content}}</view>
+        <view class="comment-user">{{item.authorName}}</view>
+        <view class="comment-content">{{item.content}}</view>
         <view class="comment-time">{{item.dateStr}}</view>
       </view>
-    </view>
-
-    <view class="no-comment" wx:if="{{commentList.length === 0}}">
-      还没有人留言，快来抢个沙发吧！
     </view>
   </view>
 
   <view class="bottom-bar">
     <input 
       class="comment-input" 
-      placeholder="跟 Ta 聊聊你的音乐理念..." 
+      placeholder="想和 TA 合作？留个言吧..." 
       value="{{commentContent}}"
-      bindinput="inputComment" 
-      confirm-type="send"
-      bindconfirm="submitComment"
+      bindinput="inputComment"
     />
-    <button class="send-btn" bindtap="submitComment">发送</button>
+    <view class="send-btn" bindtap="submitComment">发送</view>
   </view>
+
 </view>

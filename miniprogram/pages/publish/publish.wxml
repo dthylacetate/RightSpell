@@ -40,4 +40,10 @@
   </view>
 
   <button class="submit-btn" bindtap="submitPost">立即发布</button>
+
+  <button class="submit-btn" bindtap="submitForm">
+  {{isEdit ? '保存修改' : '立即发布'}}
+</button>
+
 </view>
+

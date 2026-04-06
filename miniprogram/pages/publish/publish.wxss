@@ -15,3 +15,4 @@
   border-radius: 50rpx; font-weight: bold;
 }
 .tips { font-size: 22rpx; color: #ccc; text-align: center; margin-top: 30rpx; }
+
