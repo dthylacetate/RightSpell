@@ -1,11 +1,32 @@
 <view class="container">
-  <view class="header">📋 我发布的招募</view>
+  <view class="header">
+    <text class="title">我发布的招募</text>
+    <text class="subtitle">共 {{myPosts.length}} 条记录</text>
+  </view>
 
-  <view class="post-card" wx:for="{{myPostList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
-    <view class="post-title">{{item.title}}</view>
-    <view class="post-tags">
-      <text class="tag">需要: {{item.instrument}}</text>
+  <view class="post-card" wx:for="{{myPosts}}" wx:key="_id">
+    <view class="card-content" bindtap="goToDetail" data-id="{{item._id}}">
+      <view class="card-title-row">
+        <text class="type-tag {{item.type === '个人求组队' ? 'tag-person' : 'tag-band'}}">{{item.type}}</text>
+        <text class="post-title">{{item.title}}</text>
+      </view>
+      <view class="card-info">
+        <text>🎸 {{item.instrument}}</text>
+        <text>🎵 {{item.style}}</text>
+      </view>
     </view>
-    <view class="post-content">{{item.content}}</view>
+
+    <view class="manage-bar">
+      <text class="time">发布于：{{item.dateStr}}</text>
+      <view class="btns">
+        <button class="btn-delete" bindtap="deletePost" data-id="{{item._id}}" data-title="{{item.title}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{myPosts.length === 0}}">
+    <image src="/images/empty-box.png" mode="aspectFit"></image>
+    <text>你还没有发布过招募哦</text>
+    <button class="go-publish" bindtap="navToPublish">去发一个</button>
   </view>
 </view>

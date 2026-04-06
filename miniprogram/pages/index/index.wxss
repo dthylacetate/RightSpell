@@ -188,3 +188,34 @@ page {
   font-size: 20rpx;
   margin-top: 4rpx;
 }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f2f2f2;
+  margin: 0 30rpx 20rpx;
+  padding: 15rpx 30rpx;
+  border-radius: 36rpx;
+}
+
+.search-icon {
+  margin-right: 15rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.clear-btn {
+  font-size: 26rpx;
+  color: #ff9800;
+  margin-left: 20rpx;
+  padding: 10rpx;
+}
+
+/* 别忘了调高占位块高度 */
+.top-placeholder {
+  height: 260rpx; 
+}
