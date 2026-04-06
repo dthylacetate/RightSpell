@@ -1,3 +1,31 @@
+<view class="filter-wrapper">
+  <view class="filter-row type-row">
+    <view 
+      class="filter-tag {{currType === '' ? 'active' : ''}}" 
+      bindtap="filterByType" data-type="">全部</view>
+    <view 
+      class="filter-tag {{currType === '招募乐手' ? 'active' : ''}}" 
+      bindtap="filterByType" data-type="招募乐手">招募中</view>
+    <view 
+      class="filter-tag {{currType === '个人求组队' ? 'active' : ''}}" 
+      bindtap="filterByType" data-type="个人求组队">求带走</view>
+  </view>
+
+  <scroll-view class="filter-row scroll-row" scroll-x enable-flex>
+    <view 
+      class="instrument-item {{currInstrument === '' ? 'active' : ''}}" 
+      bindtap="filterByIns" data-ins="">全乐器</view>
+    <view 
+      class="instrument-item {{currInstrument === item ? 'active' : ''}}" 
+      wx:for="{{instruments}}" 
+      wx:key="*this"
+      bindtap="filterByIns" 
+      data-ins="{{item}}">{{item}}</view>
+  </scroll-view>
+</view>
+
+<view style="height: 180rpx;"></view>
+
 <view class="container">
   <view class="post-card" wx:for="{{postList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
     <view class="card-title-row">
@@ -15,14 +43,14 @@
     <view class="card-footer">
       <view class="author">
         <image class="mini-avatar" src="{{item.authorAvatar}}"></image>
-        <text class="name">{{item.authorName}}</text>
+        <text class="author-name">{{item.authorName}}</text>
       </view>
       <text class="comment-num">💬 {{item.commentCount || 0}} 评论</text>
     </view>
   </view>
+</view>
 
-  <view class="fab-btn" bindtap="goToPublish" hover-class="fab-btn-hover">
-    <text class="plus">+</text>
-    <text class="btn-text">发布</text>
-  </view>
+<view class="fab-btn" bindtap="goToPublish">
+  <text class="fab-icon">+</text>
+  <text class="fab-text">发布</text>
 </view>

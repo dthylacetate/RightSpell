@@ -1,53 +1,132 @@
-/* 1. 卡片整体容器 */
-.post-card {
-  background: #fff;
-  margin: 20rpx;
-  padding: 30rpx;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.05); /* 淡淡的阴影增加高级感 */
+/** 基础配置 **/
+page {
+  background-color: #f8f8f8;
+  /* 确保页面高度足够滚动 */
+  min-height: 100vh; 
 }
 
-/* 2. 标题行布局 */
+/** 1. 顶部筛选栏 (高层级：1000) **/
+.filter-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff; /* 必须有背景色，否则点击会穿透到下方 */
+  z-index: 1000;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eeeeee;
+  /* 显式声明接收点击事件 */
+  pointer-events: auto; 
+}
+
+.filter-row {
+  display: flex;
+  padding: 0 30rpx;
+  margin-bottom: 15rpx;
+}
+
+.scroll-row {
+  white-space: nowrap;
+  height: 70rpx; /* 稍微加高，给点击留出空间 */
+  display: flex;
+  align-items: center;
+}
+
+/* 筛选按钮通用样式 */
+.filter-tag, .instrument-item {
+  position: relative;
+  z-index: 1001; /* 关键：比 wrapper 更高，确保能被点到 */
+  font-size: 24rpx;
+  color: #666;
+  background: #f5f5f5;
+  padding: 10rpx 28rpx; /* 增加内边距，扩大点击热区 */
+  border-radius: 30rpx;
+  margin-right: 20rpx;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* 激活状态 */
+.filter-tag.active, .instrument-item.active {
+  background: #ff9800; /* 招募区主色调：橙色 */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.type-row {
+  justify-content: flex-start;
+}
+
+/** 2. 占位块：防止内容被 fixed 筛选栏遮住 **/
+.top-placeholder {
+  /* 200rpx 是根据你的两行筛选栏高度预留的“安全区” */
+  height: 200rpx; 
+  width: 100%;
+}
+
+/** 3. 帖子列表容器 (底层级：1) **/
+.container {
+  position: relative;
+  z-index: 1; 
+  padding: 10rpx 20rpx;
+}
+
+/* 帖子卡片 */
+.post-card {
+  background: #ffffff;
+  margin-bottom: 25rpx;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0,0,0,0.06);
+}
+
 .card-title-row {
   display: flex;
-  align-items: flex-start; /* 标题长的话可以换行 */
+  align-items: flex-start;
   margin-bottom: 16rpx;
 }
 
-/* 3. 标签优化 */
+/* 标签样式区分 */
 .type-tag {
   font-size: 20rpx;
-  padding: 4rpx 12rpx;
-  border-radius: 4rpx;
-  margin-right: 16rpx;
-  margin-top: 6rpx; /* 微调对齐 */
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  margin-right: 18rpx;
+  margin-top: 6rpx;
   white-space: nowrap;
 }
 
+/* 这里的 tag-person 和 tag-band 对应你 WXML 里的判断逻辑 */
+.tag-person { background: #e3f2fd; color: #2196f3; }
+.tag-band { background: #fff3e0; color: #ff9800; }
+
 .post-title {
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: bold;
   color: #1a1a1a;
   line-height: 1.4;
+  flex: 1;
 }
 
-/* 4. 关键：控制图片显示 */
-.post-image {
-  width: 100%;
-  height: 320rpx; /* 固定高度，防止页面忽长忽短 */
-  border-radius: 8rpx;
-  margin: 20rpx 0;
-  background: #f0f0f0;
+.card-info {
+  display: flex;
+  margin: 15rpx 0;
 }
 
-/* 5. 底部信息栏（作者+评论数） */
+.info-item {
+  font-size: 26rpx;
+  color: #555;
+  margin-right: 30rpx;
+}
+
 .card-footer {
   display: flex;
-  justify-content: space-between; /* 名字在左，评论在右 */
+  justify-content: space-between;
   align-items: center;
   margin-top: 20rpx;
   padding-top: 20rpx;
-  border-top: 1rpx solid #f5f5f5; /* 一条淡淡的分割线 */
+  border-top: 1rpx solid #f9f9f9;
 }
 
 .author {
@@ -56,18 +135,56 @@
 }
 
 .mini-avatar {
-  width: 36rpx;
-  height: 36rpx;
+  width: 40rpx;
+  height: 40rpx;
   border-radius: 50%;
   margin-right: 12rpx;
+  background-color: #eee;
 }
 
 .author-name {
   font-size: 26rpx;
-  color: #666;
+  color: #777;
 }
 
 .comment-num {
   font-size: 24rpx;
-  color: #999;
+  color: #bbb;
+}
+
+/** 4. 悬浮发布按钮 (最高层级：2000) **/
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 60rpx;
+  width: 110rpx;
+  height: 110rpx;
+  background: linear-gradient(135deg, #ffb74d, #ff9800);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 24rpx rgba(255, 152, 0, 0.4);
+  z-index: 2000;
+  transition: all 0.2s ease;
+}
+
+/* 点击反馈 */
+.fab-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 4rpx 10rpx rgba(255, 152, 0, 0.2);
+}
+
+.fab-icon {
+  color: #ffffff;
+  font-size: 44rpx;
+  font-weight: bold;
+  line-height: 44rpx;
+}
+
+.fab-text {
+  color: #ffffff;
+  font-size: 20rpx;
+  margin-top: 4rpx;
 }
