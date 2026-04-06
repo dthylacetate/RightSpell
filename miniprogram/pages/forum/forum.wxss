@@ -1,89 +1,165 @@
-.container {
-  padding: 30rpx;
-  background-color: #f5f6f8; /* 给背景加一点浅灰色，区分卡片 */
-  min-height: 100vh;
+page {
+  background-color: #f6f6f6;
 }
 
-.header {
-  font-size: 40rpx;
+/* 1. 顶部吸顶区域 */
+.header-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  padding-bottom: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  margin: 20rpx 30rpx;
+  padding: 15rpx 30rpx;
+  border-radius: 40rpx;
+}
+
+.search-box input {
+  flex: 1;
+  font-size: 26rpx;
+  margin-left: 15rpx;
+}
+
+.tab-scroll {
+  white-space: nowrap;
+  padding: 0 30rpx 10rpx;
+  height: 60rpx;
+}
+
+.tab-item {
+  display: inline-block;
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 40rpx;
+  padding-bottom: 10rpx;
+}
+
+.tab-item.active {
+  color: #ff9800;
   font-weight: bold;
-  margin-bottom: 30rpx;
+  border-bottom: 4rpx solid #ff9800;
 }
 
-/* 论坛卡片样式 */
-.forum-card {
-  background-color: #ffffff;
+/* 2. 帖子卡片流 */
+.post-list {
+  padding: 20rpx;
+}
+
+.post-card {
+  background: #fff;
+  border-radius: 20rpx;
   padding: 30rpx;
   margin-bottom: 24rpx;
-  border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.03);
 }
 
-.forum-title {
-  font-size: 34rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 16rpx;
+/* ✨ 重点：控制讨论区列表头像大小 */
+.user-avatar {
+  width: 80rpx !important;    /* 列表头像设定为 80rpx */
+  height: 80rpx !important;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  flex-shrink: 0;             /* 防止被标题挤扁 */
+  background-color: #eee;
 }
 
-.forum-content {
-  font-size: 28rpx;
-  color: #666;
-  margin-bottom: 20rpx;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 限制最多显示两行，超出显示省略号 */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.forum-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 24rpx;
-  color: #999;
-}
-
-/* 悬浮发布按钮 */
-.publish-fab {
-  position: fixed;
-  bottom: 80rpx;
-  right: 40rpx;
-  background-color: #ff5722; /* 换个显眼的橙红色 */
-  color: #ffffff;
-  padding: 24rpx 40rpx;
-  border-radius: 60rpx;
-  box-shadow: 0 8rpx 16rpx rgba(255,87,34,0.3);
-  font-weight: bold;
-}
-
-
-/* 作者信息区域排版 */
-.author-info {
+.author-row {
   display: flex;
   align-items: center;
   margin-bottom: 20rpx;
 }
 
-/* 迷你圆形头像 */
-.mini-avatar {
-  width: 44rpx;
-  height: 44rpx;
-  border-radius: 50%;
-  background-color: #f0f0f0;
-  margin-right: 16rpx;
+.user-meta {
+  flex: 1;
 }
 
-/* 作者昵称文字 */
-.author-name {
-  font-size: 26rpx;
-  color: #666;
-  font-weight: 500;
-}
-
-/* 让标题更加突出 */
-.forum-title {
-  font-size: 34rpx;
+.user-name {
+  font-size: 28rpx;
   font-weight: bold;
   color: #333;
+}
+
+.post-time {
+  font-size: 22rpx;
+  color: #bbb;
+  margin-top: 4rpx;
+}
+
+.post-tag {
+  font-size: 20rpx;
+  color: #ff9800;
+  background: #fff3e0;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+/* 帖子内容预览 */
+.post-main {
+  margin-bottom: 24rpx;
+}
+
+.post-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
   margin-bottom: 12rpx;
 }
+
+.post-excerpt {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+  /* 最多显示两行，超出省略 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* 底部互动统计 */
+.post-footer {
+  display: flex;
+  border-top: 1rpx solid #f2f2f2;
+  padding-top: 20rpx;
+}
+
+.footer-stat {
+  font-size: 24rpx;
+  color: #999;
+  margin-right: 40rpx;
+  display: flex;
+  align-items: center;
+}
+
+.footer-stat .icon {
+  margin-right: 8rpx;
+}
+
+/* 悬浮发布按钮 */
+.fab-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 60rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #ffb74d, #ff9800);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 20rpx rgba(255,152,0,0.3);
+  z-index: 2000;
+}
+
+.fab-icon { font-size: 36rpx; }
+.fab-text { font-size: 18rpx; color: #fff; font-weight: bold; }

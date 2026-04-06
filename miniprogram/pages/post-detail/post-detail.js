@@ -7,7 +7,7 @@ Page({
     post: null,           // 帖子详情
     commentList: [],      // 评论列表
     commentContent: '',   // 输入框内容
-    isAuthor: false,      // ✨ 新增：是否为作者本人
+    isAuthor: false,      // 是否为作者本人
   },
 
   onLoad(options) {
@@ -27,14 +27,13 @@ Page({
   // 1. 获取帖子主表数据
   getDetailData(id) {
     const db = wx.cloud.database();
-    const currentOpenId = wx.getStorageSync('userOpenId'); // ✨ 获取当前登录用户的openid
+    const currentOpenId = wx.getStorageSync('userOpenId'); 
 
     db.collection('posts').doc(id).get({
       success: res => {
         const postData = res.data;
         this.setData({ 
           post: postData,
-          // ✨ 核心逻辑：比对当前用户ID与帖子作者ID
           isAuthor: currentOpenId === postData._openid 
         });
       },
@@ -45,7 +44,7 @@ Page({
     })
   },
 
-  // ✨ 新增：跳转到编辑页
+  // 跳转到编辑页
   goToEdit() {
     if (!this.postId) return;
     wx.navigateTo({
@@ -53,7 +52,7 @@ Page({
     });
   },
 
-  // 2. 获取评论列表 (保持不变)
+  // 2. 获取评论列表
   getComments(id) {
     const db = wx.cloud.database();
     db.collection('comments')
@@ -74,7 +73,7 @@ Page({
     this.setData({ commentContent: e.detail.value });
   },
 
-  // 4. 提交留言 (保持不变)
+  // 4. 提交留言
   submitComment() {
     const content = this.data.commentContent.trim();
     if (!content) {
@@ -101,12 +100,14 @@ Page({
     });
   },
 
+  // ✨ 核心修改：使用云函数增加评论计数
   doRealSubmitComment(content) {
     const db = wx.cloud.database();
     const openid = wx.getStorageSync('userOpenId');
 
     db.collection('users').where({ _openid: openid }).get().then(res => {
       const user = res.data[0] || { nickname: "匿名乐手", avatarUrl: "" };
+      
       db.collection('comments').add({
         data: {
           postId: this.postId,
@@ -118,9 +119,21 @@ Page({
         success: () => {
           this.setData({ commentContent: '' });
           this.getComments(this.postId); 
-          db.collection('posts').doc(this.postId).update({
-            data: { commentCount: db.command.inc(1) }
+
+          // 🚀 修改点：调用云函数 updateCounter 来增加计数
+          // 云函数有管理员权限，可以修改非本人创建的帖子数据
+          wx.cloud.callFunction({
+            name: 'updateCounter',
+            data: {
+              collection: 'posts', // 指定集合
+              postId: this.postId
+            }
+          }).then(res => {
+            console.log('计数君增加成功', res);
+          }).catch(err => {
+            console.error('计数君罢工了', err);
           });
+
           this.pushNoticeToAuthor(content, user.nickname);
           wx.hideLoading();
           wx.showToast({ title: '留言成功', icon: 'success' });
@@ -140,7 +153,7 @@ Page({
     });
   },
 
-
+  // 查看乐手名片
   goToProfile(e) {
     const openid = e.currentTarget.dataset.openid;
     if (!openid) return;
@@ -148,8 +161,4 @@ Page({
       url: `/pages/profile-detail/profile-detail?openid=${openid}`
     });
   }
-
-
-
-
 })

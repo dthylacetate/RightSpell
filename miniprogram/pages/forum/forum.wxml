@@ -1,22 +1,91 @@
-<view class="container">
-  <view class="header">💬 乐手交流区</view>
+<view class="forum-container">
 
-  <view class="forum-card" wx:for="{{forumList}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
-    
-    <view class="author-info">
-      <image class="mini-avatar" src="{{item.authorAvatar}}"></image>
-      <text class="author-name">{{item.authorName ? item.authorName : '匿名乐手'}}</text>
-    </view>
-
-    <view class="forum-title">{{item.title}}</view>
-    
-    <view class="forum-content">{{item.content}}</view>
-
-    <view class="forum-footer">
-      <text class="comments">💬 {{item.commentCount || 0}} 条评论</text>
-    </view>
-    
-  </view> <view class="publish-fab" bindtap="goToForumPublish">
-    <text>✍️ 发起讨论</text>
+<view class="header-sticky">
+  <view class="search-box">
+    <icon type="search" size="14"></icon>
+    <input 
+      placeholder="搜索乐理、技术或闲聊话题..." 
+      value="{{searchKey}}" 
+      bindinput="onSearchInput"
+      bindconfirm="getForumPosts"
+      confirm-type="search"
+    />
   </view>
+  
+  <scroll-view class="tab-scroll" scroll-x enable-flex>
+    <view 
+      class="tab-item {{currTab === item ? 'active' : ''}}" 
+      wx:for="{{tabs}}" 
+      wx:key="*this"
+      bindtap="switchTab"
+      data-tab="{{item}}"
+    >{{item}}</view>
+  </scroll-view>
+</view>
+
+<view style="height: 180rpx;"></view>
+
+<view class="post-list">
+  <view 
+    class="post-card" 
+    wx:for="{{forumList}}" 
+    wx:key="_id" 
+    bindtap="goToDetail" 
+    data-id="{{item._id}}"
+  >
+    <view class="author-row">
+      <image 
+        class="user-avatar" 
+        src="{{item.authorAvatar}}" 
+        mode="aspectFill"
+        catchtap="goToProfile" 
+        data-openid="{{item._openid}}"
+      ></image>
+      <view class="user-meta" catchtap="goToProfile" data-openid="{{item._openid}}">
+        <view class="user-name">{{item.authorName}}</view>
+        <view class="post-time">{{item.dateStr || '刚刚'}}</view>
+      </view>
+      <view class="post-tag">{{item.category || '讨论'}}</view>
+    </view>
+
+    <view class="post-main">
+      <view class="post-title">{{item.title}}</view>
+      <view class="post-excerpt">{{item.content}}</view>
+      
+      <view class="post-images" wx:if="{{item.images.length > 0}}">
+        <image 
+          wx:for="{{item.images}}" 
+          wx:for-item="img" 
+          wx:key="*this" 
+          src="{{img}}" 
+          mode="aspectFill"
+          class="content-img"
+        ></image>
+      </view>
+    </view>
+
+    <view class="post-footer">
+      <view class="footer-stat">
+        <text class="icon">👁️</text> {{item.viewCount || 0}}
+      </view>
+      <view class="footer-stat">
+        <text class="icon">💬</text> {{item.commentCount || 0}}
+      </view>
+      <view class="footer-stat">
+        <text class="icon">👍</text> {{item.likeCount || 0}}
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="empty-state" wx:if="{{forumList.length === 0}}">
+  <image src="/images/no-data.png" mode="aspectFit"></image>
+  <text>还没有相关的讨论，快来发起第一个话题吧！</text>
+</view>
+
+<view class="fab-btn" bindtap="goToPublishForum">
+  <text class="fab-icon">🖊️</text>
+  <text class="fab-text">发帖</text>
+</view>
+
 </view>

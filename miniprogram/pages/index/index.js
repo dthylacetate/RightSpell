@@ -54,47 +54,41 @@ Page({
 
   getPosts() {
     const db = wx.cloud.database();
-    const _ = db.command; 
+    const _ = db.command; // 引入指令库，用于 or 查询
     const { currType, currInstrument, searchKey } = this.data;
 
-    // 1. 基础过滤：类型（招募/求组队）
-    // 注意：如果已经选了具体的乐器标签，我们依然保留它作为“硬过滤”
+    // A. 基础查询条件（乐器和类型）
     let queryObj = {};
     if (currType) queryObj.type = currType;
     if (currInstrument) queryObj.instrument = currInstrument;
 
-    // 2. 处理“全文本”搜索关键词
+    // B. 处理搜索关键词：使用正则表达式进行模糊匹配
     if (searchKey) {
       const reg = db.RegExp({
         regexp: searchKey,
         options: 'i', // 忽略大小写
       });
 
-      // ✨ 进阶：将搜索范围扩大到所有文本字段
-      const searchConditions = _.or([
-        { title: reg },      // 匹配标题
-        { content: reg },    // 匹配详细说明
-        { instrument: reg }, // 匹配乐器标签（即便没点上面的标签也能搜到）
-        { style: reg },      // 匹配音乐风格字段
-        { authorName: reg }  // 匹配作者昵称
-      ]);
-
-      // 组合条件：(类型和乐器硬过滤) AND (全文本模糊匹配)
+      // 重点：使用 _.and 组合现有条件，并使用 _.or 同时匹配标题和内容
       queryObj = _.and([
         queryObj,
-        searchConditions
+        _.or([
+          { title: reg },
+          { content: reg }
+        ])
       ]);
     }
 
-    console.log('📡 [全文本搜索启动] 条件:', JSON.stringify(queryObj));
-    wx.showLoading({ title: '正在全站搜索...' });
+    console.log('📡 [2.2 进阶查询] 条件:', JSON.stringify(queryObj));
+    wx.showLoading({ title: '正在探测...' });
 
+    // C. 执行数据库拉取
     db.collection('posts')
       .where(queryObj)
       .orderBy('createTime', 'desc')
       .get({
         success: res => {
-          console.log('📥 匹配结果:', res.data.length, '条');
+          console.log('📥 搜索结果:', res.data.length, '条');
           this.setData({
             postList: res.data
           });
@@ -103,6 +97,7 @@ Page({
         fail: err => {
           console.error("❌ 搜索失败:", err);
           wx.hideLoading();
+          wx.showToast({ title: '网络开小差了', icon: 'none' });
         }
       })
   },

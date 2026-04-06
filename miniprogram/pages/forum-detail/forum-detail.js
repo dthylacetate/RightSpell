@@ -73,6 +73,20 @@ Page({
     })
   },
 
+
+
+
+  goToProfile(e) {
+    const openid = e.currentTarget.dataset.openid;
+    if (openid) {
+      wx.navigateTo({
+        url: `/pages/profile-detail/profile-detail?openid=${openid}`
+      });
+    }
+  },
+
+
+
   // 真正的数据库写入逻辑
   doRealSubmitComment(content) {
     const db = wx.cloud.database();

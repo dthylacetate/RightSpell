@@ -42,3 +42,43 @@
   font-size: 22rpx;
   color: #b2b2b2;
 }
+/* --- 1. 楼主头像（稍微威风一点） --- */
+.author-avatar {
+  width: 90rpx !important;    /* 楼主设定为 90rpx */
+  height: 90rpx !important;
+  border-radius: 50%;         /* 圆形 */
+  margin-right: 20rpx;
+  flex-shrink: 0;             /* 防止被右侧文字挤扁 */
+  background-color: #eee;
+  display: block;             /* 消除幽灵间隙 */
+}
+
+/* --- 2. 评论区用户头像（小巧精致） --- */
+.comment-avatar {
+  width: 70rpx !important;    /* 评论者设定为 70rpx */
+  height: 70rpx !important;
+  border-radius: 50%;
+  margin-right: 18rpx;
+  flex-shrink: 0;
+  background-color: #f0f0f0;
+  display: block;
+}
+
+/* --- 3. 配套布局优化 --- */
+.author-bar {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  margin-bottom: 30rpx;
+}
+
+.comment-item {
+  display: flex;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f8f8f8;
+}
+
+.comment-main {
+  flex: 1; /* 让内容占据剩余宽度 */
+}

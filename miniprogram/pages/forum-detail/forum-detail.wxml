@@ -1,39 +1,90 @@
 <view class="container" wx:if="{{post}}">
-  <view class="main-post">
-    <view class="author-bar">
-      <image class="avatar" src="{{post.authorAvatar}}"></image>
-      <view class="info">
-        <view class="name">{{post.authorName}}</view>
-        <view class="time">发布于讨论区</view>
+  
+  <view class="post-main">
+    <view class="post-title">{{post.title}}</view>
+    
+    <view class="author-bar" bindtap="goToProfile" data-openid="{{post._openid}}">
+      <image class="author-avatar" src="{{post.authorAvatar}}" mode="aspectFill"></image>
+      <view class="author-info">
+        <view class="author-name">
+          {{post.authorName}}
+          <text class="lz-tag">楼主</text>
+        </view>
+        <view class="post-time">{{post.dateStr || '刚刚'}} 发布</view>
       </view>
+      <view class="view-profile">查看名片 ></view>
     </view>
-    <view class="title">{{post.title}}</view>
-    <view class="content">{{post.content}}</view>
+
+    <view class="post-content">
+      <text class="content-text" user-select>{{post.content}}</text>
+    </view>
+    
+    <view class="post-images" wx:if="{{post.images.length > 0}}">
+      <image 
+        wx:for="{{post.images}}" 
+        wx:key="*this" 
+        src="{{item}}" 
+        mode="widthFix" 
+        bindtap="previewImg" 
+        data-url="{{item}}"
+      ></image>
+    </view>
+  </view>
+
+  <view class="comment-header">
+    <text class="header-title">全部回帖</text>
+    <text class="header-count">{{commentList.length}} 条评论</text>
   </view>
 
   <view class="comment-list">
-    <view class="list-title">全部回复 ({{commentList.length}})</view>
     <view class="comment-item" wx:for="{{commentList}}" wx:key="_id">
-      <image class="c-avatar" src="{{item.authorAvatar}}"></image>
-      <view class="c-body">
-        <view class="c-header">
-          <text class="c-name">{{item.authorName}}</text>
-          <text class="c-time">{{item.dateStr}}</text>
+      
+      <image 
+        class="comment-avatar" 
+        src="{{item.authorAvatar}}" 
+        mode="aspectFill" 
+        bindtap="goToProfile" 
+        data-openid="{{item._openid}}"
+      ></image>
+
+      <view class="comment-main">
+        <view class="comment-user-row">
+          <text class="comment-user" bindtap="goToProfile" data-openid="{{item._openid}}">{{item.authorName}}</text>
+          <text class="floor-num">{{index + 1}}楼</text>
         </view>
-        <view class="c-text">{{item.content}}</view>
+        
+        <view class="comment-content">
+          <text>{{item.content}}</text>
+        </view>
+
+        <view class="comment-footer">
+          <text class="comment-time">{{item.dateStr}}</text>
+        </view>
       </view>
     </view>
-    <view class="empty-tips" wx:if="{{commentList.length === 0}}">还没有人回复，快来盖楼！</view>
+
+    <view class="no-more" wx:if="{{commentList.length > 0}}">—— 以上为全部讨论内容 ——</view>
+    
+    <view class="empty-comment" wx:if="{{commentList.length === 0}}">
+      <image src="/images/empty-msg.png" mode="aspectFit"></image>
+      <text>沙发还在，快来聊两句...</text>
+    </view>
   </view>
 
-  <view class="comment-input-bar">
-    <input 
-      class="comment-input" 
-      placeholder="和大家一起聊聊..." 
-      bindinput="inputComment" 
-      value="{{commentContent}}" 
-    />
-    <button class="send-btn forum-btn" bindtap="submitComment">发送</button>
+  <view style="height: 120rpx;"></view>
+
+  <view class="reply-bar">
+    <view class="input-wrapper">
+      <input 
+        class="reply-input" 
+        placeholder="发表你的音乐见解..." 
+        value="{{commentContent}}" 
+        bindinput="inputComment" 
+        confirm-type="send"
+        bindconfirm="submitComment"
+      />
+    </view>
+    <button class="send-btn" bindtap="submitComment">发送</button>
   </view>
-  
+
 </view>
