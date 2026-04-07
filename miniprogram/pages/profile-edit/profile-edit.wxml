@@ -15,7 +15,7 @@
 
     <view class="form-item">
       <text class="label">所在校区</text>
-      <input class="input" placeholder="如：沙河/本部/海南" value="{{campus}}" bindinput="inputCampus" />
+      <input class="input" placeholder="如：沙河 / 本部 / 海南" value="{{campus}}" bindinput="inputCampus" />
     </view>
 
     <view class="form-item">
@@ -47,13 +47,30 @@
       <text class="label">我的设备 (Gear)</text>
       <textarea 
         class="textarea" 
-        placeholder="晒晒你的家伙事儿，如：dingwall, 全套黑玻璃" 
+        placeholder="晒晒你的家伙事儿，如：Dingwall, Darkglass全家桶" 
         value="{{gear}}" 
         bindinput="inputGear" 
         maxlength="200"
       />
     </view>
 
+    <view class="form-item no-border">
+      <text class="label">设备美照 (最多3张)</text>
+      <view class="image-uploader">
+        <view class="img-item" wx:for="{{gearImagesLocal}}" wx:key="*this">
+          <image src="{{item}}" mode="aspectFill" bindtap="previewLocalImg" data-url="{{item}}"></image>
+          <view class="del-btn" catchtap="deleteImg" data-index="{{index}}">×</view>
+        </view>
+        
+        <view class="add-btn" bindtap="chooseGearImages" wx:if="{{gearImagesLocal.length < 3}}">
+          <view class="plus">+</view>
+          <view class="add-text">添加图片</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-card">
     <view class="form-item no-border">
       <text class="label">个人简介 (Bio)</text>
       <textarea 

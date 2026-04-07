@@ -112,3 +112,27 @@ page { background-color: #f7f7f7; }
   position: relative;
   z-index: 1;
 }
+
+/* 图片网格布局 */
+.gear-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx; /* 图片之间的间距 */
+  margin-top: 20rpx;
+}
+
+/* 图片尺寸锁定 */
+.gear-photo {
+  width: 210rpx; /* 三列布局的经典尺寸 */
+  height: 210rpx;
+  border-radius: 12rpx;
+  background: #f8f8f8;
+}
+
+/* 引用符号的装饰 */
+.quote {
+  font-size: 50rpx;
+  color: #ddd;
+  font-family: serif;
+  margin-right: 10rpx;
+}

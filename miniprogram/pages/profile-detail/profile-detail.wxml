@@ -23,7 +23,26 @@
 
     <view class="info-card">
       <view class="card-title">🔌 核心设备 (Gear)</view>
-      <text class="gear-text">{{user.gear || '保持神秘，暂未晒出设备'}}</text>
+      
+      <view class="gear-description" wx:if="{{user.gear}}">
+        <text class="gear-text">{{user.gear}}</text>
+      </view>
+
+      <view class="gear-gallery" wx:if="{{user.gearImages && user.gearImages.length > 0}}">
+        <image 
+          class="gear-photo" 
+          wx:for="{{user.gearImages}}" 
+          wx:key="*this" 
+          src="{{item}}" 
+          mode="aspectFill"
+          bindtap="previewGear"
+          data-url="{{item}}"
+        ></image>
+      </view>
+
+      <view class="no-data-hint" wx:if="{{!user.gear && (!user.gearImages || user.gearImages.length == 0)}}">
+        保持神秘，暂未晒出设备
+      </view>
     </view>
 
     <view class="info-card">
@@ -34,5 +53,11 @@
       </view>
     </view>
 
+    <view class="bottom-gap"></view>
   </view>
+</view>
+
+<view class="loading-state" wx:else>
+  <view class="loading-icon"></view>
+  <text>正在调音中...</text>
 </view>
